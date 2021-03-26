@@ -1,0 +1,440 @@
+ALiS (1.1.0) unstable; urgency=low
+
+  * Default compiler setting is changed from icc to gcc.
+  * A bug on rowJy and rowJz is fixed.
+
+ -- Ho-Seok Ee <hsee@kongju.ac.kr>  Fri, 15 Mon 2019
+
+ALiS (1.0.8) unstable; urgency=low
+
+  * The timer() function is updated.
+  * The Rotation shape is added.
+  * The Rotation[XYZ] shapes are removed.
+  * The writeSpectrum() function is modified to return phase.
+  * The planewave() function is properly normalized in media.
+  * New variables [xy]Size and [xy|xz|yz]Area are added to world.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Tue, 12 Apr 2016
+
+ALiS (1.0.7) unstable; urgency=low
+
+  * A new subgrid calculation method is added.
+  * A normalization problem is fixed on extended phaser.
+  * The Band waveform is updated to use (min,max) wavelengths.
+  * The farFieldProfile() function supports [X|Y|CL|CR]-pol.
+  * The Contour shape is renamed to ImportContour.
+  * A new field Contour is added.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Thu, 17 Dec 2015
+
+ALiS (1.0.6) unstable; urgency=low
+
+  * A bug of planewave() function on phase is fixed.
+  * The focusedBeam() function supports 2D gaussian beams.
+  * The spotsize of focusedBeam() is changed to FWHM diameter.
+  * The normalization of sliceFreqDom() function has updated.
+  * The farFieldProfile() function supports Log scale output.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Thu, 30 Jul 2015
+
+ALiS (1.0.5) unstable; urgency=low
+
+  * The writeSpectrum() function is normalized.
+  * The phaser and far-field functions are normalized.
+  * The write[Poynting|FarField]Spectrum() functions are added.
+  * The effective permittivity calculation codes are updated.
+  * New fields (rawe[xyz]Eff) are added.
+  * New waveforms are added (BrownBand, PinkBand, WhiteBand).
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Mon, 27 Oct 2014
+
+ALiS (1.0.4) unstable; urgency=low
+
+  * The timer() function is updated.
+  * The putObjectArrayTFSF() function is updated.
+  * The createPhasers() and phaserPoynting() functions are added.
+  * The updatePhaser() function supports phaser array.
+  * The pointDipole() function is normalized.
+  * A new waveform is added (Band).
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Thu, 16 Oct 2014
+
+ALiS (1.0.3) unstable; urgency=low
+
+  * The nonUniform grid function is updated.
+  * The nonUniform grid is supported in farField*() functions.
+  * The default subgrid average number is changed.
+  * The Lorentz and critical-points model parameters are changed.
+  * The materials fitting data are renewed.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Fri, 10 Oct 2014
+
+ALiS (1.0.2) unstable; urgency=low
+
+  * The SoE[xyzE] are added for source electric fields.
+  * The sliceFreqDom() supports ScE[xyz] and SoE[xyz] fields.
+  * The sliceSnap() and sliceTimeAvg() functions are modified.
+  * The guidedWave[XYZ]() functions are added.
+  * The farfield functions are changed to use angle in media.
+  * The farfield functions works with PBC and BBC.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Mon, 26 May 2014
+
+ALiS (1.0.1) unstable; urgency=low
+
+  * The materials fitting data are renewed.
+  * The Sine waveform is modified for faster convergence.
+  * The writeNormalizedSpectrum() function is added.
+  * The J[xyz] output functions return total (bound+free) current.
+  * A bug in deleteWorld() function is fixed.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Tue, 14 Jan 2014
+
+ALiS (1.0.0) unstable; urgency=low
+
+  * The Artistic license 2.0 is applied.
+  * The farfield.c is renamed to farfld.c.
+  * The phaser.c is splited from farfld.c.
+  * The Contour_Example.c and Nanowire_Spectrum.c are added.
+  * The Contour shape is added.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Fri, 01 Nov 2013
+
+ALiS (0.9.9) unstable; urgency=low
+
+  * A bug of farFieldFlux() function is fixed.
+  * A bug in effective permittivity calculation is fixed.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Fri, 18 Oct 2013
+
+ALiS (0.5.4) unstable; urgency=low
+
+  * The farFieldFlux() function is added.
+  * The symmetries are supported in farField*() functions.
+  * The planewave() function works with BBC for theta=0.
+  * The h5read() and h5write() functions are added.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Mon, 07 Oct 2013
+
+ALiS (0.5.3) unstable; urgency=low
+
+  * Add removeSlice() and removePhaser().
+  * Add removeSources() and removeObjects().
+  * Add rebootWorld(), deleteWorld() and deleteCloneWorld().
+  * The appendSourceWorld() is renamed to createTFSF().
+  * The TFSF method supports multiple source worlds.
+  * The planewave() is changed to use incident angle in media.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Thu, 25 Jul 2013
+
+ALiS (0.5.2) unstable; urgency=low
+
+  * The nkFile() function is added.
+  * The sE[xyzE] are renamed to ScE[xyzE].
+  * Bugs of update[EH]() reported by Kyung-Deok Song is fixed.
+  * Bugs of poynting[XYZ]() are fixed.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Fri, 05 Jul 2013
+
+ALiS (0.5.1) unstable; urgency=low
+
+  * The sliceSnap() is modified.
+  * The writeTxt() and writeRow() are modified.
+  * The writeDFT() is modified and renamed to writeSpectrum().
+  * The poynting[X|Y|Z|In|Out]() and objectAbsorption() are modified.
+  * The h5 function is updated to make it compatable with hdf5 1.8.8.
+  * The planewave() is modified.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Mon, 17 Jun 2013
+
+ALiS (0.5.0) unstable; urgency=low
+
+  * Add pointDipole() and planewave() functions.
+  * Add focusedBeam() and appendSourceWorld() function.
+  * Add sE[xyz] and sEE for scattered electric field.
+  * Remove createSource() and exciteDipole() functions.
+  * Remove createTFSF() and exciteTFSF[EH]() functions.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Tue, 11 Jun 2013
+
+ALiS (0.4.1) unstable; urgency=low
+
+  * Add farFieldI() function.
+  * Modify farField() function to return complex phaser.
+  * Modify farFieldTheta() and farFieldPhi() functions.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Thu, 02 May 2013
+
+ALiS (0.4.0) unstable; urgency=low
+
+  * Add createPhaser(), updatePhaser() functions.
+  * Add phaserPoyntingOut() function.
+  * Add farField(), farFieldTheta() and farFieldPhi() functions.
+  * Add farFieldProfile() function.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Sat, 13 Apr 2013
+
+ALiS (0.3.9) unstable; urgency=low
+
+  * The objects can be defined by center positions and sizes.
+  * Modify createWorld(R, D, S...) to createWorld(D, R, S...).
+  * Modify matter parameter from {g, w, a, p} to {w, g, a, p}.
+  * Update writeDFT() to support multiple detection points.
+  * Update putObjects() to properly calculate boundaries.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Tue, 25 Dec 2012
+
+ALiS (0.3.8) unstable; urgency=low
+
+  * Add Translation object.
+  * Add ContourRI output function.
+  * Add more pre-defined matter (Ge).
+  * Add writeRow() function.
+  * Add updateTFSFE() and updateTFSFH() functions.
+  * Modify poynting[XYZ] functions to support symmetry properly.
+  * Rename Rotate[XYZ] to Rotation[XYZ].
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Tue, 22 May 2012
+
+ALiS (0.3.7) unstable; urgency=low
+
+  * Add png() macro.
+  * Add CLattice[XYZ] shapes.
+  * Remove normalization factor from h5 and txt outputs.
+  * The alis command skips recompile when it's not necessary.
+  * The alis command executes object file by default.
+  * The createWorld() function does not delete *.c source file.
+  * Add more pre-defined matters (metals at UV).
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Thu, 14 Apr 2011
+
+ALiS (0.3.6) unstable; urgency=low
+
+  * Add rawJx, rawJy, rawJz output functions.
+  * Fix DivE to return correct charge density.
+  * Fix Fx, Fy, Fz to return correct Lorentz force.
+  * Modify Jx, Jy, Jz to return total induced bound currents.
+  * Fix a normalization bug of h5 and txt out functions.
+  * The dkbr and dkrb colormaps are slightly modified.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Tue, 08 Feb 2011
+
+ALiS (0.3.5) unstable; urgency=low
+
+  * Add nonLinearTWM() function.
+  * Add birefringent material support.
+  * Modify matter structure and nonLinearSHG() function.
+  * The exciteBeam() function supports arbitrary amplitude.
+  * Simplify update.c using macro functions including LOOP3D().
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Fri, 21 Jan 2011
+
+ALiS (0.3.4) unstable; urgency=low
+
+  * Add cloneWorld() and nonLinearSHG() functions.
+  * Fix a boundary handling bug reported by Hee-Jin Lim.
+  * Modify sliceFreqDom() function to support [EH][xyz] fields.
+  * Update slices to contain interpolation function pointer.
+  * Update absoption and current output functions.
+  * Update alispp command.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Thu, 30 Dec 2010
+
+ALiS (0.3.3) unstable; urgency=low
+
+  * Re-implement alispp with C for faster operation.
+  * The writeDFT() function does not normalize results.
+  * The createTFSF() function does not truancuate source world.
+  * The searchQueue() function works properly with sliceSnap().
+  * Increase number of parameter of object.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Wed, 27 Oct 2010
+
+ALiS (0.3.2) unstable; urgency=low
+
+  * Add writeDFT() function.
+  * Remove createDft(), updateDft() and writeDft() functions.
+  * Add sliceSnap(), sliceTimeAvg() and sliceFreqDom() functions.
+  * Remove sliceToH5(), sliceToTxt(), sliceToPng() functions.
+  * Split slices.c from output.c.
+  * Add objects macro.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Fri, 10 Sep 2010
+
+ALiS (0.3.1) unstable; urgency=low
+
+  * Add DLattice shape and improve Lattice shape.
+  * The res structure is slightly modified.
+  * Normalize exciteDipole(), exciteBeam() and exciteTFSF[EH]().
+  * Remove excite[Coherent|Incoherent]Dipoles().
+  * Fix a bug of createTFSF() reported by Kyung-Deok Song.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Fri, 20 Aug 2010
+
+ALiS (0.3.0) unstable; urgency=low
+
+  * Add Rotate[XYZ] shapes.
+  * The object and matter types are changed.
+  * Update putObjectArray() to remove objectRange().
+  * Split shapes.c from object.c.
+  * Split fields.c from output.c.
+  * Fix a bug of worldSum() related to symmetry.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Tue, 27 Jul 2010
+
+ALiS (0.2.9) unstable; urgency=low
+
+  * Add temperature() function.
+  * Update TFSF code to support obliquely incident planewave.
+  * Improve stability of PML by applying it to the last grid.
+  * Simplify copyBoundary() function.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Fri, 17 Jul 2010
+
+ALiS (0.2.8) unstable; urgency=low
+
+  * Add RI (refractive index) and LogRI output functions.
+  * Add multiple Combination, Intersection and Difference.
+  * Update setEffectivePermittivity() function.
+  * Use float instead of built-in complex type for complex poles.
+  * Modify poynting[XYZ] to return original value * dt.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Thu, 08 Jul 2010
+
+ALiS (0.2.7) unstable; urgency=low
+
+  * Add putObjectArray() function.
+  * Apply ADE-PML instead of convolutional PML.
+  * Update TFSF code to allow its boundary to cross dispersive media.
+  * Improve accuracy of sliceSum().
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Wed, 23 Jun 2010
+
+ALiS (0.2.6) unstable; urgency=low
+
+  * Add symmetry support for PBC.
+  * Update TFSF code to allow its boundary to cross the PML.
+  * Improve accuracy of worldSum() when PBC is applied.
+  * Improve 2D-FDTD performance.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Fri, 28 May 2010
+
+ALiS (0.2.5) unstable; urgency=low
+
+  * Add sliceNormalize().
+  * Add HRod[XY|XZ|YZ|YX|ZX|ZY] shapes.
+  * Fix a bug of searchQueue() for multi-world simulation.
+  * Fix a bug that createSlice() fails with fractional resolution.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Wed, 21 Apr 2010
+
+ALiS (0.2.4) unstable; urgency=low
+
+  * Add worldMax() and worldSum().
+  * Modify createTFSF() to support nested TFSF sources.
+  * Modify createSource() to set the effective permittivity.
+  * Modify UE to use effective permittivity for dispersive media.
+  * Modify sliceToPng() to support 1-D slices.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Wed, 07 Apr 2010
+
+ALiS (0.2.3) unstable; urgency=low
+
+  * Add createSlice[X|Y|Z|XY|XZ|YZ]() macros.
+  * Add poynting[XYZ]() output functions.
+  * Add Maxwell stress tensor fields, T[xyz][xyz].
+  * Modify exciteTFSF[EH]() to return the intensity of the wave.
+  * New fitting results for Ni, Si and SiPoly.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Thu, 25 Mar 2010
+
+ALiS (0.2.2) unstable; urgency=low
+
+  * Add n() and nk() macros instantly returning dielectric matter.
+  * Add DivE, J[xyz], JxHy, JxHz, JyHz, JyHx, JzHx, JzHy and F[xyz].
+  * Fix a bug of createSource() related to TFSF introduced in v2.1.
+  * Modify functions involving J to return original value * dt.
+  * Modify exciteIncoherentDipoles() to return radiated power.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Fri, 19 Mar 2010
+
+ALiS (0.2.1) unstable; urgency=low
+
+  * Add sliceAccumulate(), sliceSubtract() and sliceClean().
+  * Rename excitePointDipole() to exciteDipole().
+  * Rename exciteGaussianBeam() to exciteBeam().
+  * Fix a minor bug on absorption calculation.
+  * Fix a bug of exciteCoherentDipoles() related to symmetry.
+  * Modify exciteDipole() to return radiated power.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Tue, 16 Mar 2010
+
+ALiS (0.2.0) unstable; urgency=low
+
+  * Add nonUniform grid support.
+  * Add exciteGaussianBeam() source function.
+  * Add multi-pole Lorentz and critical-points models support.
+  * Automatically apply CPML for pmlNum >= 20.
+  * Automatically select symmetry type from source.
+  * Fix a phase bug of ExHy, EyHz, EzHx, EyHx, EzHy and ExHz.
+  * Merge all timer functions to a single function, timer().
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Mon, 01 Fab 2010
+
+ALiS (0.1.5) unstable; urgency=low
+
+  * Add a colormap: hot.
+  * Add fflush(stdout) to updateTimer().
+  * Apply #pragma ivdep (ignore vector dependencies).
+  * Update OpenMP routines to make them compatible with icc 11.
+  * Update sliceMax(), sliceSum() and sliceTo[H5|Png|Txt]().
+  * Replace createTimer() and updateTimer() with timer().
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Tue, 17 Nov 2009
+
+ALiS (0.1.4) unstable; urgency=low
+
+  * Add sourceDft().
+  * Split createDft() and updateDft() from writeDft().
+  * Update DFT functions to use built-in complex type.
+  * Update exciteIncoherentDipoles() to use better RNG algorithm.
+  * Update updateTimer() to use gettimeofday() instead of time().
+  * Update alisMAlloc() macro.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Mon, 26 Oct 2009
+
+ALiS (0.1.3) unstable; urgency=low
+
+  * New types: shape and field.
+  * Add Diamond shape.
+  * Add exciteCoherentDipoles() and exciteIncoherentDipoles().
+  * Remove exciteRandomElectricDipoles().
+  * Merge createDft() and updateDft() functions to writeDft().
+  * Fix a bug of objectRange() function.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Mon, 07 Oct 2009
+
+ALiS (0.1.2) unstable; urgency=low
+
+  * Add alisp (ALiS Plotter) and alispp (ALiS Peak Picker) commands.
+  * Add TFSF (total-field scattered-field) source functions.
+  * Add materialAbsorption() output function.
+  * Update exciteDipole() to use Ex instead of exciteEx.
+  * Improve sliceTo[H5|Png|Txt]() functions to support directory.
+  * Improve writeTxt() to support flush frequency.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Fri, 28 Aug 2009
+
+ALiS (0.1.1) unstable; urgency=low
+
+  * Improve update algorithm for matters with constant conductance.
+  * Fix bugs of sliceTo[H5|Png|Txt]() and dumpToH5().
+  * Add DRodX, DRodY and DRodZ shapes.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Sat, 31 Jul 2009
+
+ALiS (0.1.0) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Ho-Seok Ee <hsee@korea.ac.kr>  Wed, 01 Jul 2009

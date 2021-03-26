@@ -1,0 +1,6 @@
+*.[ao]
+*.so
+bin/abench
+bin/alispp
+examples/*
+!examples/*.c

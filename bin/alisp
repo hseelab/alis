@@ -1,0 +1,11 @@
+#!/bin/sh
+######################################################################
+# ALiS is Copyright (C) 2009-2019 by Ho-Seok Ee <hsee@kongju.ac.kr>. #
+# Redistribution and use with or without modification, are permitted #
+# under the terms of the Artistic License version 2.                 #
+######################################################################
+
+for file in $@
+do
+	grep -F -v nan $file | grep ^[0-9] | gracebat -nxy - -hdevice PNG -printfile ${file%.txt}.png
+done

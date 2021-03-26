@@ -1,0 +1,46 @@
+#!/bin/sh
+######################################################################
+# ALiS is Copyright (C) 2009-2020 by Ho-Seok Ee <hsee@kongju.ac.kr>. #
+# Redistribution and use with or without modification, are permitted #
+# under the terms of the Artistic License version 2.                 #
+######################################################################
+
+CC="h5cc -std=c99 -fopenmp -O3"
+ALIS=`readlink -f $0`
+
+if [ -d "${ALIS%/bin/alis}/lib" ]
+then
+	ALISLIB="${ALIS%/bin/alis}/lib"
+else
+	ALISLIB="${ALIS%/bin/alis}/src"
+	ALISINCLUDE="-I$ALISLIB"
+fi
+
+if [ -f "${1%.c}.c" ]
+then
+	if [ -d "${1%.c}" ]
+	then
+		rm -fr "${1%.c}"
+	fi
+
+	if [ ! -x "${1%.c}" ] ||
+		[ `date +%s -r "${1%.c}"` -le `date +%s -r "${1%.c}.c"` ] ||
+		[ `date +%s -r "${1%.c}"` -le `date +%s -r "${ALISLIB}/libalis.a"` ]
+	then
+		echo $CC -lpng -o "${1%.c}" "${1%.c}.c" "${ALISLIB}/libalis.a" "${ALISINCLUDE}"
+		eval $CC -lpng -o "${1%.c}" "${1%.c}.c" "${ALISLIB}/libalis.a" "${ALISINCLUDE}"
+		rm -f "${1%.c}.o"
+	fi
+
+	EXEC="./${1%.c}"
+	shift
+
+	if [ "$@" ]
+	then
+		echo $EXEC $@
+		exec $EXEC $@
+	fi
+else
+	echo "ALiS: A Light Simulator"
+	echo "Usage: alis FILE [OPTIONS]"
+fi
