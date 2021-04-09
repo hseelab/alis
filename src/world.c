@@ -247,6 +247,11 @@ static world createEmptyWorld(res R, dom D, sur S)
 	W->sinky = S.y.MinSur==BBC && S.y.MaxSur ? sinf(2*PI*(W->yMax-W->yMin)/S.y.MaxSur) : 0;
 	W->sinkz = S.z.MinSur==BBC && S.z.MaxSur ? sinf(2*PI*(W->zMax-W->zMin)/S.z.MaxSur) : 0;
 
+	W->coskyp = S.y.MinSur==HBC && S.y.MaxSur ? cosf(PI*(2*(W->yMax-W->yMin)/S.y.MaxSur+(W->xMax-W->xMin)/S.x.MaxSur)) : 1;
+	W->coskym = S.y.MinSur==HBC && S.y.MaxSur ? cosf(PI*(2*(W->yMax-W->yMin)/S.y.MaxSur-(W->xMax-W->xMin)/S.x.MaxSur)) : 1;
+	W->sinkyp = S.y.MinSur==HBC && S.y.MaxSur ? sinf(PI*(2*(W->yMax-W->yMin)/S.y.MaxSur+(W->xMax-W->xMin)/S.x.MaxSur)) : 0;
+	W->sinkym = S.y.MinSur==HBC && S.y.MaxSur ? sinf(PI*(2*(W->yMax-W->yMin)/S.y.MaxSur-(W->xMax-W->xMin)/S.x.MaxSur)) : 0;
+
 	W->xyArea = W->xSize * W->ySize, W->xzArea = W->xSize * W->zSize, W->yzArea = W->ySize * W->zSize;
 	if (S.x.MinSur==BBC || S.y.MinSur==BBC || S.z.MinSur==BBC) W->complexField = 1;
 	return W;

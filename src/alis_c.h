@@ -12,8 +12,9 @@
 #include <complex.h>
 #include <ieee754.h>
 
-#define NIL 6
-#define BBC 5
+#define NIL 7
+#define BBC 6
+#define HBC 5
 #define PBC 4
 #define PML 3
 #define PEC 2
@@ -112,7 +113,7 @@ struct world {
 	float t, dt, dx, dy, dz, eV, f;
 	float xMin, xMax, yMin, yMax, zMin, zMax;
 	float xMIN, xMAX, yMIN, yMAX, zMIN, zMAX;
-	float coskx, sinkx, cosky, sinky, coskz, sinkz;
+	float coskx, sinkx, cosky, sinky, coskz, sinkz, coskyp, coskym, sinkyp, sinkym;
 	float xSize, ySize, zSize, xyArea, xzArea, yzArea;
 	int iMin, iMax, iNum, jMin, jMax, jNum, kMin, kMax, kNum;
 	int iMIN, iMAX, iNUM, jMIN, jMAX, jNUM, kMIN, kMAX, kNUM;

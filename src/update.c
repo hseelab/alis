@@ -280,12 +280,21 @@ void updateE(world W)
 	}
 	if (W->S) updateTFSFE(W, W->S);
 	if (W->SE) updateS(W, W->SE, W->H->t);
+
 	int iAlt = (W->xMinSur==PBC || W->xMinSur==BBC ? W->iNUM-1 : 1);
 	int jAlt = (W->yMinSur==PBC || W->yMinSur==BBC ? W->jNUM-1 : 1);
 	int kAlt = (W->zMinSur==PBC || W->zMinSur==BBC ? W->kNUM-1 : 1);
+
 	copyBoundary(W, E, x, W->coskx, -W->sinkx, W->iMAX+1, W->iMAX+1, W->jMIN, W->jMAX, W->kMIN, W->kMAX,-iAlt, 0, 0);
-	copyBoundary(W, E, y, W->cosky, -W->sinky, W->iMIN, W->iMAX, W->jMAX+1, W->jMAX+1, W->kMIN, W->kMAX, 0,-jAlt, 0);
 	copyBoundary(W, E, z, W->coskz, -W->sinkz, W->iMIN, W->iMAX, W->jMIN, W->jMAX, W->kMAX+1, W->kMAX+1, 0, 0,-kAlt);
+
+	if (W->yMinSur==HBC) {
+		copyBoundary(W, E, y, W->coskym,-W->sinkym, W->iMIN, 0, W->jMAX+1, W->jMAX+1, W->kMIN, W->kMAX, W->iMAX, 1-W->jNUM, 0);
+		copyBoundary(W, E, y, W->coskyp,-W->sinkyp, 1, W->iMAX+1, W->jMAX+1, W->jMAX+1, W->kMIN, W->kMAX, W->iMIN, 1-W->jNUM, 0);
+	}
+	else {
+		copyBoundary(W, E, y, W->cosky, -W->sinky, W->iMIN, W->iMAX, W->jMAX+1, W->jMAX+1, W->kMIN, W->kMAX, 0,-jAlt, 0);
+	}
 	W->t = W->E->t = ++W->n * W->dt;
 }
 
@@ -298,21 +307,36 @@ void updateH(world W)
 	}
 	if (W->S) updateTFSFH(W, W->S);
 	if (W->SH) updateS(W, W->SH, W->E->t);
+
 	int iAlt = (W->xMinSur==PBC || W->xMinSur==BBC ? W->iNUM-1 : 1);
 	int jAlt = (W->yMinSur==PBC || W->yMinSur==BBC ? W->jNUM-1 : 1);
 	int kAlt = (W->zMinSur==PBC || W->zMinSur==BBC ? W->kNUM-1 : 1);
+
 	copyBoundary(W, H, y, W->xMaxSur==PEC?1:W->coskx, -W->sinkx, W->iMAX+1, W->iMAX+1, W->jMIN, W->jMAX+1, W->kMIN, W->kMAX+1,-iAlt, 0, 0);
 	copyBoundary(W, H, z, W->xMaxSur==PEC?1:W->coskx, -W->sinkx, W->iMAX+1, W->iMAX+1, W->jMIN, W->jMAX+1, W->kMIN, W->kMAX+1,-iAlt, 0, 0);
-	copyBoundary(W, H, z, W->yMaxSur==PEC?1:W->cosky, -W->sinky, W->iMIN, W->iMAX+1, W->jMAX+1, W->jMAX+1, W->kMIN, W->kMAX+1, 0,-jAlt, 0);
-	copyBoundary(W, H, x, W->yMaxSur==PEC?1:W->cosky, -W->sinky, W->iMIN, W->iMAX+1, W->jMAX+1, W->jMAX+1, W->kMIN, W->kMAX+1, 0,-jAlt, 0);
 	copyBoundary(W, H, x, W->zMaxSur==PEC?1:W->coskz, -W->sinkz, W->iMIN, W->iMAX+1, W->jMIN, W->jMAX+1, W->kMAX+1, W->kMAX+1, 0, 0,-kAlt);
 	copyBoundary(W, H, y, W->zMaxSur==PEC?1:W->coskz, -W->sinkz, W->iMIN, W->iMAX+1, W->jMIN, W->jMAX+1, W->kMAX+1, W->kMAX+1, 0, 0,-kAlt);
 	copyBoundary(W, H, y, W->coskx, W->sinkx, W->iMIN, W->iMIN, W->jMIN, W->jMAX+1, W->kMIN, W->kMAX+1, iAlt, 0, 0);
 	copyBoundary(W, H, z, W->coskx, W->sinkx, W->iMIN, W->iMIN, W->jMIN, W->jMAX+1, W->kMIN, W->kMAX+1, iAlt, 0, 0);
-	copyBoundary(W, H, z, W->cosky, W->sinky, W->iMIN, W->iMAX+1, W->jMIN, W->jMIN, W->kMIN, W->kMAX+1, 0, jAlt, 0);
-	copyBoundary(W, H, x, W->cosky, W->sinky, W->iMIN, W->iMAX+1, W->jMIN, W->jMIN, W->kMIN, W->kMAX+1, 0, jAlt, 0);
 	copyBoundary(W, H, x, W->coskz, W->sinkz, W->iMIN, W->iMAX+1, W->jMIN, W->jMAX+1, W->kMIN, W->kMIN, 0, 0, kAlt);
 	copyBoundary(W, H, y, W->coskz, W->sinkz, W->iMIN, W->iMAX+1, W->jMIN, W->jMAX+1, W->kMIN, W->kMIN, 0, 0, kAlt);
+
+	if (W->yMinSur==HBC) {
+		copyBoundary(W, H, x, W->coskyp, W->sinkyp, W->iMIN, 0, W->jMIN,   W->jMIN,   W->kMIN, W->kMAX, W->iMAX, W->jNUM-1, 0);
+		copyBoundary(W, H, z, W->coskyp, W->sinkyp, W->iMIN, 0, W->jMIN,   W->jMIN,   W->kMIN, W->kMAX, W->iMAX, W->jNUM-1, 0);
+		copyBoundary(W, H, x, W->coskym,-W->sinkym, W->iMIN, 0, W->jMAX+1, W->jMAX+1, W->kMIN, W->kMAX, W->iMAX, 1-W->jNUM, 0);
+		copyBoundary(W, H, z, W->coskym,-W->sinkym, W->iMIN, 0, W->jMAX+1, W->jMAX+1, W->kMIN, W->kMAX, W->iMAX, 1-W->jNUM, 0);
+		copyBoundary(W, H, x, W->coskym, W->sinkym, 1, W->iMAX+1, W->jMIN,   W->jMIN,   W->kMIN, W->kMAX, W->iMIN, W->jNUM-1, 0);
+		copyBoundary(W, H, z, W->coskym, W->sinkym, 1, W->iMAX+1, W->jMIN,   W->jMIN,   W->kMIN, W->kMAX, W->iMIN, W->jNUM-1, 0);
+		copyBoundary(W, H, x, W->coskyp,-W->sinkyp, 1, W->iMAX+1, W->jMAX+1, W->jMAX+1, W->kMIN, W->kMAX, W->iMIN, 1-W->jNUM, 0);
+		copyBoundary(W, H, z, W->coskyp,-W->sinkyp, 1, W->iMAX+1, W->jMAX+1, W->jMAX+1, W->kMIN, W->kMAX, W->iMIN, 1-W->jNUM, 0);
+	}
+	else {
+		copyBoundary(W, H, z, W->yMaxSur==PEC?1:W->cosky, -W->sinky, W->iMIN, W->iMAX+1, W->jMAX+1, W->jMAX+1, W->kMIN, W->kMAX+1, 0,-jAlt, 0);
+		copyBoundary(W, H, x, W->yMaxSur==PEC?1:W->cosky, -W->sinky, W->iMIN, W->iMAX+1, W->jMAX+1, W->jMAX+1, W->kMIN, W->kMAX+1, 0,-jAlt, 0);
+		copyBoundary(W, H, z, W->cosky, W->sinky, W->iMIN, W->iMAX+1, W->jMIN, W->jMIN, W->kMIN, W->kMAX+1, 0, jAlt, 0);
+		copyBoundary(W, H, x, W->cosky, W->sinky, W->iMIN, W->iMAX+1, W->jMIN, W->jMIN, W->kMIN, W->kMAX+1, 0, jAlt, 0);
+	}
 	W->t = W->H->t = W->E->t + 0.5 * W->dt;
 }
 
