@@ -27,8 +27,8 @@ then
 		[ `date +%s -r "${1%.c}"` -le `date +%s -r "${1%.c}.c"` ] ||
 		[ `date +%s -r "${1%.c}"` -le `date +%s -r "${ALISLIB}/libalis.a"` ]
 	then
-		echo $CC -lpng -o "${1%.c}" "${1%.c}.c" "${ALISLIB}/libalis.a" "${ALISINCLUDE}"
-		eval $CC -lpng -o "${1%.c}" "${1%.c}.c" "${ALISLIB}/libalis.a" "${ALISINCLUDE}"
+		echo $CC -o "${1%.c}" "${1%.c}.c" "${ALISLIB}/libalis.a" "${ALISINCLUDE}" -lpng
+		eval $CC -o "${1%.c}" "${1%.c}.c" "${ALISLIB}/libalis.a" "${ALISINCLUDE}" -lpng
 		rm -f "${1%.c}.o"
 	fi
 
