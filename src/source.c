@@ -49,51 +49,6 @@ float Band(world W, source S, float t, float phase)
 }
 
 
-float BrownBand(world W, source S, float t, float phase)
-{
-	if (!S->N) {
-		S->nMin = floorf(S->wavelength / S->resolution);
-		S->nMax = ceilf(S->supplement / S->resolution);
-		S->frequency = 2.0 * PI / (S->nMin * S->nMax * S->resolution);
-		S->peaktime = 0.5 * S->nMin * S->nMax * S->resolution;
-		S->N = S->nMin * S->nMax * S->resolution / W->dt;
-	}
-	float f = 0;
-	for (int n=S->nMin; n<=S->nMax; n++) f += sinf((t-S->peaktime) * n * S->frequency) * S->nMax / n;
-	return f;
-}
-
-
-float PinkBand(world W, source S, float t, float phase)
-{
-	if (!S->N) {
-		S->nMin = floorf(S->wavelength / S->resolution);
-		S->nMax = ceilf(S->supplement / S->resolution);
-		S->frequency = 2.0 * PI / (S->nMin * S->nMax * S->resolution);
-		S->peaktime = 0.5 * S->nMin * S->nMax * S->resolution;
-		S->N = S->nMin * S->nMax * S->resolution / W->dt;
-	}
-	float f = 0;
-	for (int n=S->nMin; n<=S->nMax; n++) f += sinf((t-S->peaktime) * n * S->frequency) * sqrtf(S->nMax) / sqrtf(n);
-	return f;
-}
-
-
-float WhiteBand(world W, source S, float t, float phase)
-{
-	if (!S->N) {
-		S->nMin = floorf(S->wavelength / S->resolution);
-		S->nMax = ceilf(S->supplement / S->resolution);
-		S->frequency = 2.0 * PI / (S->nMin * S->nMax * S->resolution);
-		S->peaktime = 0.5 * S->nMin * S->nMax * S->resolution;
-		S->N = S->nMin * S->nMax * S->resolution / W->dt;
-	}
-	float f = 0;
-	for (int n=S->nMin; n<=S->nMax; n++) f += sinf((t-S->peaktime) * n * S->frequency);
-	return f;
-}
-
-
 static source createSource(world W, field F, waveform waveForm, float wavelength, float supplement, float resolution)
 {
 	source S;
@@ -150,7 +105,7 @@ void (pointDipole)(world W, field F, float x, float y, float z, waveform waveFor
 		if (F==Ey || F==Hz || F==Hx || F==iEy || F==iHz || F==iHx) S->jMax++;
 		if (F==Ez || F==Hx || F==Hy || F==iEz || F==iHx || F==iHy) S->kMax++;
 
-		if (!amplitude || waveForm == BrownBand || waveForm == PinkBand || waveForm == WhiteBand) amplitude = 1;
+		if (!amplitude) amplitude = 1;
 		if      (W->Dom.x.Min==W->Dom.x.Max) amplitude *= W->dx * sqrtf(2.5) * sqrtf(wavelength) / sq(W->dt);
 		else if (W->Dom.y.Min==W->Dom.y.Max) amplitude *= W->dy * sqrtf(2.5) * sqrtf(wavelength) / sq(W->dt);
 		else if (W->Dom.z.Min==W->Dom.z.Max) amplitude *= W->dz * sqrtf(2.5) * sqrtf(wavelength) / sq(W->dt);
@@ -181,7 +136,7 @@ void (guidedWaveX)(world W, char *file, field F, float x, waveform waveForm, flo
 	if (waveForm) {
 		int d[2];
 		float **f = h5read(d, file);
-		if (!amplitude || waveForm == BrownBand || waveForm == PinkBand || waveForm == WhiteBand) amplitude = 1;
+		if (!amplitude) amplitude = 1;
 		source S = createSource(W, F, waveForm, wavelength, supplement, amplitude);
 
 		if (d[0] != 1+W->jMax+(W->yMinSur==SYM?W->jMax:-W->jMin)) printf("The dimension of guided wave does not match!\n"), exit(0);
@@ -213,7 +168,7 @@ void (guidedWaveY)(world W, char *file, field F, float y, waveform waveForm, flo
 	if (waveForm) {
 		int d[2];
 		float **f = h5read(d, file);
-		if (!amplitude || waveForm == BrownBand || waveForm == PinkBand || waveForm == WhiteBand) amplitude = 1;
+		if (!amplitude) amplitude = 1;
 		source S = createSource(W, F, waveForm, wavelength, supplement, amplitude);
 
 		if (d[0] != 1+W->iMax+(W->xMinSur==SYM?W->iMax:-W->iMin)) printf("The dimension of guided wave does not match!\n"), exit(0);
@@ -245,7 +200,7 @@ void (guidedWaveZ)(world W, char *file, field F, float z, waveform waveForm, flo
 	if (waveForm) {
 		int d[2];
 		float **f = h5read(d, file);
-		if (!amplitude || waveForm == BrownBand || waveForm == PinkBand || waveForm == WhiteBand) amplitude = 1;
+		if (!amplitude) amplitude = 1;
 		source S = createSource(W, F, waveForm, wavelength, supplement, amplitude);
 
 		if (d[0] != 1+W->iMax+(W->xMinSur==SYM?W->iMax:-W->iMin)) printf("The dimension of guided wave does not match!\n"), exit(0);
@@ -468,7 +423,7 @@ void (planewave)(world W, dom Dom, tfield pol(phaser,float,float), float theta, 
 	if ((theta !=0 && theta != 180) && (phi !=  0 && phi != 180)) Sur.y.MinSur = BBC;
 
 	float resolution = amplitude;
-	if (!amplitude || waveForm == BrownBand || waveForm == PinkBand || waveForm == WhiteBand) amplitude = 1;
+	if (!amplitude) amplitude = 1;
 
 	tfsf S = createTFSF(W, Dom, Sur);
 	sourcePlanes(W, pol, theta, phi, 0, wavelength, supplement, resolution, 0, 0);
@@ -490,7 +445,7 @@ void beam(world W, field F, float x, float y, float z, float theta, waveform wav
 		float n  = W->CE->z ? 1/sqrtf(W->CE->z[W->xtoi(W,MIN(x,W->xMax))][W->ytoj(W,MIN(y,W->yMax))][k]) : 1;
 		source S = createSource(W, F, waveForm, wavelength, supplement, amplitude);
 		S->iMin = W->iMIN, S->iMax = W->iMAX, S->jMin = W->jMIN, S->jMax = W->jMAX, S->kMin = k, S->kMax = k;
-		if (!amplitude || waveForm == BrownBand || waveForm == PinkBand || waveForm == WhiteBand) amplitude = 1;
+		if (!amplitude) amplitude = 1;
 		amplitude /= sqrtf(n*n*n);
 
 		if (spotsize) {

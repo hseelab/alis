@@ -317,7 +317,7 @@ struct tfsf {
 	tfsf S;
 };
 
-waveform Sine, Pulse, Band, WhiteBand, BrownBand, PinkBand;
+waveform Sine, Pulse, Band;
 tfsf createTFSF(world, dom, sur);
 void pointDipole(world, field, float, float, float, waveform, float, float, float, float, ...);
 void guidedWaveX(world W, char *file, field F, float x, waveform waveForm, float wavelength, float supplement, float amplitude, float phase, ...);

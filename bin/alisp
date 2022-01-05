@@ -1,11 +1,25 @@
-#!/bin/sh
+#!/bin/python3
 ######################################################################
-# ALiS is Copyright (C) 2009-2019 by Ho-Seok Ee <hsee@kongju.ac.kr>. #
+# ALiS is Copyright (C) 2009-2021 by Ho-Seok Ee <hsee@kongju.ac.kr>. #
 # Redistribution and use with or without modification, are permitted #
 # under the terms of the Artistic License version 2.                 #
 ######################################################################
 
-for file in $@
-do
-	grep -F -v nan $file | grep ^[0-9] | gracebat -nxy - -hdevice PNG -printfile ${file%.txt}.png
-done
+import numpy as np
+import matplotlib.pyplot as plt
+from sys import argv
+from pandas import read_csv
+
+for n in range(1, len(argv)):
+    print('Plotting', argv[n].replace('.txt', '.png'))
+    with open(argv[n], newline = '') as txt:
+        data = np.array(read_csv(txt, sep='\t'))
+        fig, ax = plt.subplots()
+#        ax.set_ylim([0,1])
+        ax.grid()
+        for c in range(1, len(data[0])):
+            ax.plot(data[:,0], data[:,c])
+        fig.savefig(argv[n].replace('.txt', '.png'))
+        plt.close('all')
+        txt.close()
+#        plt.show()
