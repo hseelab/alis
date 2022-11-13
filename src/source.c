@@ -261,7 +261,7 @@ static void putObjectArrayTFSF(world W, tfsf S, matter *M, object *O)
 		}
 	}
 
-	if (O[N].S || M[N].e.x != 1 || M[N].e.y && M[N].e.y != 1 || M[N].e.z && M[N].e.z != 1 || M[N].P->omega || M[N].P->gamma)
+	if (O[N].S || M[N].e.x != 1 || M[N].e.y && M[N].e.y != 1 || M[N].e.z && M[N].e.z != 1 || M[N].P->w || M[N].P->g)
 		putObjectArray(S->W, M+N, O+N);
 }
 

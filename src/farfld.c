@@ -55,19 +55,19 @@ static float rotateB(float theta, float a, float b)
 static int auxiliaryFieldRequired(matter M)
 {
 	for (int i=0; i<3; i++) for (int j=0; j<6; j++) if (M.d[i][j]) return 2;
-	if (M.P[0].omega || M.P[0].gamma) return 1;
+	if (M.P[0].w || M.P[0].r) return 1;
 	return 0;
 }
 
 
-static float complex pole(world W, matter M, float omega, int p)
+static float complex pole(world W, matter M, float w, int p)
 {
-	if (M.P[p].freal || M.P[p].fimag)
-		return M.P[p].omega
-			*((M.P[p].freal + I * M.P[p].fimag) / (M.P[p].omega + omega + I * M.P[p].gamma)
-			+ (M.P[p].freal - I * M.P[p].fimag) / (M.P[p].omega - omega - I * M.P[p].gamma));
-	if (M.P[p].omega) return - sq(M.P[p].omega) / (sq(omega) + I * omega * M.P[p].gamma);
-	return -I * M.P[p].gamma / omega;
+	if (M.P[p].f || M.P[p].g)
+		return 0.5
+			*((M.P[p].f * M.P[p].w - M.P[p].g * M.P[p].r + I * M.P[p].g * M.P[p].w) / (M.P[p].w + w + I * M.P[p].r)
+			+ (M.P[p].f * M.P[p].w - M.P[p].g * M.P[p].r - I * M.P[p].g * M.P[p].w) / (M.P[p].w - w - I * M.P[p].r));
+	if (M.P[p].w) return - sq(M.P[p].w) / (sq(w) + I * w * M.P[p].r);
+	return -I * M.P[p].r / w;
 }
 
 

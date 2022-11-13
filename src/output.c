@@ -367,7 +367,7 @@ static int objcmp(object O1, object O2)
 static int auxiliaryFieldRequired(matter M)
 {
 	for (int i=0; i<3; i++) for (int j=0; j<6; j++) if (M.d[i][j]) return 2;
-	if (M.P[0].omega || M.P[0].gamma) return 1;
+	if (M.P[0].w || M.P[0].r) return 1;
 	return 0;
 }
 

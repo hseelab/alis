@@ -20,34 +20,34 @@ typedef struct {
 	int iMin, iMax, jMin, jMax, kMin, kMax;
 } bounds;
 
-static float complex Gamma(world W, matter M, int p)
+static float complex gamma(matter M, int p)
 {
-	return M.P[p].gamma + I * M.P[p].omega;
+	return M.P[p].r + I * M.P[p].w;
 }
 
-static float complex Sigma(world W, matter M, int p)
+static float complex sigma(matter M, int p)
 {
-	return 2 * I * M.P[p].omega * (M.P[p].freal - I * M.P[p].fimag);
+	return I * (M.P[p].f * M.P[p].w - M.P[p].g * gamma(M, p));
 }
 
 static float CJa(world W, matter M, int p)
 {
-	return (1 - PI * M.P[p].gamma * W->dt / W->eV) / (1 + PI * M.P[p].gamma * W->dt / W->eV);
+	return (1 - PI * M.P[p].r * W->dt / W->eV) / (1 + PI * M.P[p].r * W->dt / W->eV);
 }
 
 static float CJb(world W, matter M, int p)
 {
-	return sq(2 * PI * M.P[p].omega * W->dt / W->eV) / (1 + PI * M.P[p].gamma * W->dt / W->eV);
+	return sq(2 * PI * M.P[p].w * W->dt / W->eV) / (1 + PI * M.P[p].r * W->dt / W->eV);
 }
 
 static float complex CKa(world W, matter M, int p)
 {
-	return (1 - PI * Gamma(W, M, p) * W->dt / W->eV) / (1 + PI * Gamma(W, M, p) * W->dt / W->eV);
+	return (1 - PI * gamma(M, p) * W->dt / W->eV) / (1 + PI * gamma(M, p) * W->dt / W->eV);
 }
 
 static float complex CKb(world W, matter M, int p)
 {
-	return - Gamma(W, M, p) * Sigma(W, M, p) * sq(2 * PI * W->dt / W->eV) / (1 + PI * Gamma(W, M, p) * W->dt / W->eV);
+	return - gamma(M, p) * sigma(M, p) * sq(2 * PI * W->dt / W->eV) / (1 + PI * gamma(M, p) * W->dt / W->eV);
 }
 
 static float Ca(world W, matter M, int q)
@@ -55,8 +55,8 @@ static float Ca(world W, matter M, int q)
 	int m = M.e.y || M.e.z ? 1 : 0;
 	float Conductivity=0;
 	for (int p=0; p<MAXPOLES; p+=1+2*m) {
-		if (!M.P[p+q*m].omega && M.P[p+q*m].gamma > 0) Conductivity += M.P[p+q*m].gamma;
-		if (M.P[p+q*m].fimag) Conductivity += crealf(Sigma(W, M, p+q*m));
+		if (!M.P[p+q*m].w && M.P[p+q*m].r) Conductivity += M.P[p+q*m].r;
+		if (M.P[p+q*m].g) Conductivity += M.P[p+q*m].g * M.P[p+q*m].w;
 	}
 	return Conductivity / W->eV;
 }
@@ -282,7 +282,7 @@ static bounds *getObjectsBounds(world W, object *O, int N)
 static int auxiliaryFieldRequired(matter M)
 {
 	for (int i=0; i<3; i++) for (int j=0; j<6; j++) if (M.d[i][j]) return 2;
-	if (M.P[0].omega || M.P[0].gamma) return 1;
+	if (M.P[0].w || M.P[0].r) return 1;
 	return 0;
 }
 
@@ -300,8 +300,8 @@ static void setAuxiliaryCoeffs(world W, coeffs *C, matter *M, object *O, int N, 
 	C->az[n] = PI * W->dt * Ca(W, M[o], 2) / (M[o].e.z ? M[o].e.z : M[o].e.x);
 
 	for (int p=0, j=0, k=C->NJ[n]; p<MAXPOLES; p+=1+2*m) {
-		if (M[o].P[p].omega) {
-			if (!M[o].P[p].freal && !M[o].P[p].fimag) {
+		if (M[o].P[p].w) {
+			if (!M[o].P[p].f && !M[o].P[p].g) {
 				C->JJx[n][j] = CJa(W, M[o], p+0*m);
 				C->JJy[n][j] = CJa(W, M[o], p+1*m);
 				C->JJz[n][j] = CJa(W, M[o], p+2*m);
@@ -364,8 +364,8 @@ void putObjectArray(world W, matter *M, object *O)
 			int m = M[o].e.y || M[o].e.z ? 1 : 0;
 
 			for (int p=0; p<MAXPOLES; p++) {
-				if (M[o].P[p].omega && !M[o].P[p].freal && !M[o].P[p].fimag) W->CE->NJ[n]++;
-				if (M[o].P[p].omega) W->CE->NK[n]++;
+				if (M[o].P[p].w && !M[o].P[p].f && !M[o].P[p].g) W->CE->NJ[n]++;
+				if (M[o].P[p].w) W->CE->NK[n]++;
 			}
 			if (m) W->CE->NJ[n] /= 3, W->CE->NK[n] /= 3;
 			makeAuxiliaryFields(W, W->E, W->CE, n, B[o]);
@@ -500,8 +500,8 @@ void removeObjects(world W)
 matter LT(matter M, float T)
 {
 	for(int i=0; i<MAXPOLES; i++) {
-		M.P[i].gamma *= T;
-		M.P[i].fimag *= T;
+		M.P[i].r *= T;
+		M.P[i].g *= T;
 	}
 	return M;
 }

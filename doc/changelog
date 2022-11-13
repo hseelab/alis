@@ -1,3 +1,10 @@
+ALiS (1.2.0) unstable; urgency=low
+
+  * Dispersion models and materials database are updated.
+  * Dielectric function fitting script DFFit.ipynb is added.
+
+ -- Ho-Seok Ee <hsee@kongju.ac.kr>  Nov, 14 Mon 2022
+
 ALiS (1.1.0) unstable; urgency=low
 
   * Default compiler setting is changed from icc to gcc.

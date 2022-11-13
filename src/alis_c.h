@@ -150,7 +150,7 @@ struct matter {
 		float x, y, z;
 	} e;
 	struct {
-		float omega, gamma, freal, fimag;
+		float w, r, f, g;
 	} P[MAXPOLES];
 	float d[3][6];
 };
